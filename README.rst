@@ -26,8 +26,8 @@ customization::
   (setq running-life-dialog-program 'kdialog)
 
   ;; Sound file to be played when starting or finishing pomodoros.
-  (setq running-life-start-sound (expand-file-name "/path/to/a.wav"))
-  (setq running-life-finish-sound (expand-file-name "/path/to/another.wav"))
+  (setq running-life-start-sound "/path/to/a.wav")
+  (setq running-life-finish-sound "/path/to/another.wav")
 
   ;; Text to insert when starting a new pomodoro, it will be passed to
   ;; `format-time-string`.
