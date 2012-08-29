@@ -81,7 +81,7 @@
   :group 'running-life
   :type 'boolean)
 
-(defvar running-life-buffer)
+(defvar running-life-buffer nil)
 (defvar running-life-mode-line)
 (defvar running-life-start-work-at)
 (defvar running-life-start-break-at)
@@ -129,13 +129,14 @@
 
 (defun running-life-start ()
   (interactive)
-  (setq running-life-buffer (current-buffer))
-  (let ((fmt '(:eval running-life-mode-line)))
-    (if running-life-global-mode-line
-	(set-default 'mode-line-format (cons fmt mode-line-format))
-      (add-to-list 'mode-line-format fmt)))
-  (running-life-start-work)
-  (run-with-timer 0 1 'running-life-main-loop))
+  (when (not running-life-buffer)
+    (setq running-life-buffer (current-buffer))
+    (let ((fmt '(:eval running-life-mode-line)))
+      (if running-life-global-mode-line
+	  (set-default 'mode-line-format (cons fmt mode-line-format))
+	(add-to-list 'mode-line-format fmt)))
+    (running-life-start-work)
+    (run-with-timer 0 1 'running-life-main-loop)))
 
 (defun running-life-display-time-at-mode-line (label seconds)
   (setq running-life-mode-line
