@@ -135,8 +135,8 @@
       (if running-life-global-mode-line
 	  (set-default 'mode-line-format (cons fmt mode-line-format))
 	(add-to-list 'mode-line-format fmt)))
-    (running-life-start-work)
-    (run-with-timer 0 1 'running-life-main-loop)))
+    (run-with-timer 0 1 'running-life-main-loop))
+  (running-life-start-work))
 
 (defun running-life-display-time-at-mode-line (label seconds)
   (setq running-life-mode-line
