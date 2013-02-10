@@ -71,6 +71,11 @@
   :type 'symbol
   :options '(kdialog xdialog zenity))
 
+(defcustom running-life-text-directory ""
+  "Diretory to store text files"
+  :group 'running-life
+  :type 'string)
+
 (defcustom running-life-auto-insert-text ""
   "Text to be inserted when starting a new pomodoro."
   :group 'running-life
@@ -127,8 +132,17 @@
     (move-end-of-line nil))
   (raise-frame))
 
+(defun switch-or-open-running-life-file ()
+  (letrec ((date (calendar-current-date))
+	   (month (car date))
+	   (year (caddr date))
+	   (fpath (concat (file-name-as-directory running-life-text-directory)
+			  (format "%d-%02d.txt" year month))))
+    (find-file fpath)))
+
 (defun running-life-start ()
   (interactive)
+  (switch-or-open-running-life-file)
   (when (not running-life-buffer)
     (setq running-life-buffer (current-buffer))
     (let ((fmt '(:eval running-life-mode-line)))
