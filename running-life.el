@@ -126,9 +126,11 @@
   (setq running-life-start-work-at (current-time))
   (running-life-play-sound 'start)
   (with-current-buffer running-life-buffer
-    (goto-line 6)
+    (beginning-of-buffer)
+    (if (search-forward "----------------" nil -1)
+      (previous-line 2))
     (insert (format-time-string running-life-auto-insert-text))
-    (goto-line 9)
+    (previous-line 1)
     (move-end-of-line nil))
   (raise-frame))
 
