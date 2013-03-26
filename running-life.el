@@ -65,12 +65,6 @@
   :group 'running-life
   :type 'string)
 
-(defcustom running-life-dialog-program nil
-  "Dialog program to be used."
-  :group 'running-life
-  :type 'symbol
-  :options '(kdialog xdialog zenity))
-
 (defcustom running-life-text-directory ""
   "Diretory to store text files"
   :group 'running-life
@@ -94,13 +88,7 @@
 (defvar running-life-pomodoros 0)
 
 (defun running-life-show-dialog (message)
-  (case running-life-dialog-program
-    (kdialog (call-process "kdialog" nil nil nil
-			   "--title" "Running Life" "--yesno" message))
-    (xdialog (call-process "Xdialog" nil nil nil
-			   "--title" "Running Life" "--yesno" message "0" "0"))
-    (zenity  (call-process "zenity" nil nil nil"--question"
-			   "--title" "Running Life" "--text" message))))
+  (x-popup-dialog t `(,message ("OK" . 0) ("Cancel" . nil))))
 
 (defun running-life-play-sound (sound)
   (let ((file (case sound
@@ -125,13 +113,13 @@
   (setq running-life-state 'on-work)
   (setq running-life-start-work-at (current-time))
   (running-life-play-sound 'start)
-  (with-current-buffer running-life-buffer
-    (beginning-of-buffer)
-    (if (search-forward "----------------" nil -1)
+  (switch-to-buffer running-life-buffer)
+  (beginning-of-buffer)
+  (if (search-forward "----------------" nil -1)
       (previous-line 2))
-    (insert (format-time-string running-life-auto-insert-text))
-    (previous-line 1)
-    (move-end-of-line nil))
+  (insert (format-time-string running-life-auto-insert-text))
+  (previous-line 1)
+  (move-end-of-line nil)
   (raise-frame))
 
 (defun switch-or-open-running-life-file ()
@@ -172,6 +160,8 @@
       (progn
        (setq running-life-state 'on-break)
        (setq running-life-start-break-at (current-time))
+       (switch-to-buffer running-life-buffer)
+       (running-life-play-sound 'start)
        (raise-frame))
     (setq running-life-state 'stopped)))
 
