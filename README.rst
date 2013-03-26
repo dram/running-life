@@ -21,10 +21,6 @@ customization::
 
   (require 'running-life)
 
-  ;; Dialog program to be used to show alarm, can be kdialog, xdialog
-  ;; or zenity.
-  (setq running-life-dialog-program 'kdialog)
-
   ;; Sound file to be played when starting or finishing pomodoros.
   (setq running-life-start-sound "/path/to/a.wav")
   (setq running-life-finish-sound "/path/to/another.wav")
