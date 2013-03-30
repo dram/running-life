@@ -133,12 +133,13 @@
 (defun running-life-start ()
   (interactive)
   (switch-or-open-running-life-file)
-  (when (not running-life-buffer)
+  (when (or (not running-life-buffer)
+	    (not (buffer-name running-life-buffer)))
     (setq running-life-buffer (current-buffer))
     (let ((fmt '(:eval running-life-mode-line)))
+      (add-to-list 'mode-line-format fmt)
       (if running-life-global-mode-line
-	  (set-default 'mode-line-format (cons fmt mode-line-format))
-	(add-to-list 'mode-line-format fmt)))
+	  (set-default 'mode-line-format mode-line-format)))
     (run-with-timer 0 1 'running-life-main-loop))
   (running-life-start-work))
 
