@@ -88,7 +88,9 @@
 (defvar running-life-pomodoros 0)
 
 (defun running-life-show-dialog (message)
-  (x-popup-dialog t `(,message ("OK" . 0) ("Cancel" . nil))))
+  (if (display-graphic-p)
+      (x-popup-dialog t `(,message ("OK" . 0) ("Cancel" . nil)))
+    (if (y-or-n-p (replace-regexp-in-string "\n" " " message)) 0 nil)))
 
 (defun running-life-play-sound (sound)
   (let ((file (case sound
